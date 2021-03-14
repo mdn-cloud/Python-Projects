@@ -13,5 +13,5 @@ Course: Programming Language Research Project
 
 
 class DatasetPath:
-    covid19_new: str = "..\\Data\\covid19-workFile.csv"
+    covid19_new: str = "..\\Data\\covid19-Modified.csv"
     new_dataset: str = "..\\Data\\new_dataset.csv"
