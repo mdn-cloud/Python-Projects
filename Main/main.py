@@ -10,7 +10,7 @@ persistence and presentation classes to execute and print in the console for use
 
 """
 from datetime import datetime
-from Presentation.manu import validate_response
+from Presentation.menu import validate_response
 from Persistence.dataAccess import *
 from Data.datesetPath import *
 
