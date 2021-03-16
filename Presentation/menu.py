@@ -2,7 +2,7 @@
 Project name - CST8333ProjectByMuktaDebnath
 Professor's name: Mazin Abou-Seido
 Author's name: Mukta Debnath
-CST8333-351- Assignment 02
+CST8333-351- Assignment 03
 Student No.: 040950904
 
 
@@ -17,12 +17,10 @@ of the application.
 
 import sys
 from collections import namedtuple
-import pandas as pd
 import pyinputplus
-from BusinessLogic import dataService
+from BusinessLogic import dataService, oracleDBconnector
 from Data.datesetPath import DatasetPath
 from Persistence import dataAccess
-
 
 res_list = []
 response = ""
@@ -61,48 +59,49 @@ def handle_response(user_response):
     :param user_response:
     :type user_response: int
     """
+
+    global new_record_index
     try:
         if user_response == 1:
             dataAccess.reload()
             validate_response()
 
-        elif user_response == 2 and len(dataAccess.records) != 0:
+        elif user_response == 2 and oracleDBconnector.count_records_number_from_oracle() > 0:
             dataService.writeToFile(DatasetPath.new_dataset)
             validate_response()
 
-        elif user_response == 3 and len(dataAccess.records) != 0:
+        elif user_response == 3 and oracleDBconnector.count_records_number_from_oracle() > 0:
             response_one = pyinputplus.inputNum(
                 "\nEnter one index number to view [0 to " + str(len(dataAccess.records) - 1) + "]: ",
-                '>', min=0, lessThan=len(dataAccess.records))
+                '>', min=0, lessThan=int(int(oracleDBconnector.count_records_number_from_oracle())))
             print("\nHere is the record with index number " + str(response_one) + "\n")
             dataService.showOneRecord(response_one)
             validate_response()
 
-        elif user_response == 4 and len(dataAccess.records) != 0:
-            response_total = pyinputplus.inputNum("How many records you want to print? [1 to " +
-                                                  str(len(dataAccess.records)) + "]: ", '>', min=1,
-                                                  lessThan=(len(dataAccess.records) + 1))
+        elif user_response == 4 and oracleDBconnector.count_records_number_from_oracle() > 0:
+            response_total = pyinputplus.inputNum("How many records you want to print? [1 to "
+                                                  + str(oracleDBconnector.count_records_number_from_oracle()) + "]: ",
+                                                  '>', min=1,
+                                                  lessThan=(oracleDBconnector.count_records_number_from_oracle() + 1))
             print("\nChoose the index numbers of row to print.")
             for i in range(response_total):
-                response_multi = pyinputplus.inputNum("No. " + str(i + 1) + " row [0 to " +
-                                                      str(len(dataAccess.records) - 1) + "]: ", '>', min=0,
-                                                      lessThan=len(dataAccess.records))
+                response_multi = pyinputplus.inputNum("No. " + str(i + 1) + " row [0 to " + str(
+                    oracleDBconnector.count_records_number_from_oracle() - 1)+ "]: ", '>', min=0, lessThan=int(
+                    int(oracleDBconnector.count_records_number_from_oracle())))
                 res_list.append(response_multi)
 
             print("\nYour selected  " + str(response_total) + " records are: \n")
 
-            for i in res_list:
-                dataService.showMultipleRecords(i)
-
+            # for i in res_list:
+            dataService.showMultipleRecords(res_list)
             res_list.clear()
-
             validate_response()
 
-        elif user_response == 5 and len(dataAccess.records) != 0:
+        elif user_response == 5 and oracleDBconnector.count_records_number_from_oracle() > 0:
             dataService.showAllRecords()
             validate_response()
 
-        elif user_response == 6 and len(dataAccess.records) != 0:
+        elif user_response == 6 and oracleDBconnector.count_records_number_from_oracle() > 0:
             prid = pyinputplus.inputNum("Province id (number): ")
             pname_en = pyinputplus.inputStr("Province name in English: ", "N/A")
             pname_fr = pyinputplus.inputStr("Province name in French: ", "N/A")
@@ -113,34 +112,46 @@ def handle_response(user_response):
             inumtotal = pyinputplus.inputNum("Number of total (number): ")
             inumtoday = pyinputplus.inputNum("Number of today (number): ")
             iratetotal = pyinputplus.inputFloat("Total rate (number): ")
-            new_record = {'pruid': prid, 'prname': pname_en, 'prnameFR': pname_fr, 'date': idate, 'numconf': inumconf,
+            new_record = {'pruid': prid, 'prname': pname_en, 'prnameFR': pname_fr, 'sdate': idate, 'numconf': inumconf,
                           'numprob': inumprob, 'numdeaths': deaths, 'numtotal': inumtotal, 'numtoday': inumtoday,
                           'ratetotal': iratetotal}
             dataService.addRecord(new_record)
-            new_record_index = (len(dataAccess.records) - 1)
-            print("\nThe new record has been created below:")
-            print(dataAccess.records[new_record_index])
-            pd_df = pd.DataFrame(dataAccess.records)
-            print(pd_df.loc[[new_record_index]])
+            # new_record_index = (len(dataAccess.records) - 1)
+            # print("\nThe new record has been created below:")
+            # print(dataAccess.records[new_record_index])
+            # pd_df = pd.DataFrame(dataAccess.records)
+            # print(pd_df.loc[[new_record_index]])
             validate_response()
 
-        elif user_response == 7 and len(dataAccess.records) != 0:
-            response_update = pyinputplus.inputNum("\nGive the index of the record to update [0 to "
-                                                   + str(len(dataAccess.records) - 1) + "]: ", '>', min=0,
-                                                   lessThan=len(dataAccess.records))
-            print("\nThis is the record with index of " + str(response_update) + "\n")
-            dataService.updateRecord(response_update)
-            validate_response()
+        elif user_response == 7 and oracleDBconnector.count_records_number_from_oracle() > 0:
+            response_update = pyinputplus.inputNum("\nGive the index of the record to update [0 to " + str(
+                oracleDBconnector.get_last_index_from_oracle()) + "]: ", '>', min=0, lessThan=int(
+                int(oracleDBconnector.get_last_index_from_oracle()) + int(1)))
+            oracleDBconnector.read_one_record_from_oracle(response_update)
+            print('\nEnter new values for the record:')
+            prid = pyinputplus.inputNum("Province id (number): ")
+            pname_en = pyinputplus.inputStr("Province name in English: ", "N/A")
+            pname_fr = pyinputplus.inputStr("Province name in French: ", "N/A")
+            idate = pyinputplus.inputRegex(r'\d{2}/\d{2}/\d{4}', prompt='Date (MM/DD/YYYY): ')
+            inumconf = pyinputplus.inputNum("Number of conf (number): ")
+            inumprob = pyinputplus.inputNum("Number of prob (number): ")
+            deaths = pyinputplus.inputNum("Number of deaths (number): ")
+            inumtotal = pyinputplus.inputNum("Number of total (number): ")
+            inumtoday = pyinputplus.inputNum("Number of today (number): ")
+            iratetotal = pyinputplus.inputFloat("Total rate (number): ")
+            dataService.updateRecord(prid, pname_en, pname_fr, idate, inumconf, inumprob, deaths, inumtotal,
+                                     inumtoday, iratetotal, response_update)
 
-        elif user_response == 8 and len(dataAccess.records) != 0:
-            response_del = pyinputplus.inputNum("\nGive the index of the record to delete [0 to  "
-                                                + str(len(dataAccess.records) - 1) + "]: ", '>', min=0,
-                                                lessThan=len(dataAccess.records))
-            print("\nThe deleted record is:\n")
-            pd_df = pd.DataFrame(dataAccess.records)
-            print(pd_df.loc[[response_del]])
+            # print("\nThis is the record with index of " + str(response_update) + "\n")
+            # dataService.updateRecord(response_update)
+            # validate_response()
+
+        elif user_response == 8 and oracleDBconnector.count_records_number_from_oracle() > 0:
+            response_del = pyinputplus.inputNum("\nGive the index of the record to delete [0 to  " + str(
+                oracleDBconnector.get_last_index_from_oracle()) + "]: ", '>', min=0, lessThan=int(
+                int(oracleDBconnector.get_last_index_from_oracle()) + int(1)))
+            oracleDBconnector.read_one_record_from_oracle(response_del)
             dataService.delete_record(response_del)
-            print("\nThe index number " + str(response_del) + " has deleted.\n")
             validate_response()
 
         elif user_response == 9:
@@ -161,7 +172,7 @@ class Menu:
 
     Option = namedtuple('Option', 'label')
     _separator = "~" * 45
-    _options = {1: Option("Reload 100 records"), 2: Option("Create a new file and save records to the file"),
+    _options = {1: Option("Reload All Covid records"), 2: Option("Write all saved records to a new file"),
                 3: Option("Print one record"), 4: Option("Print multiple records"),
                 5: Option("Print all saved records"), 6: Option("Create a new record"),
                 7: Option("Update a record from the file"), 8: Option("Delete a record from the file"),

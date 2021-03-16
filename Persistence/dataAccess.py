@@ -2,7 +2,7 @@
 Project name - CST8333ProjectByMuktaDebnath
 Professor's name: Mazin Abou-Seido
 Author's name: Mukta Debnath
-CST8333-351- Assignment 02
+CST8333-351- Assignment 03
 Student No.: 040950904
 
 Description: Read, store and reload 100 rows of dataset. Output the recorded data on screen and write
@@ -17,6 +17,7 @@ import sys
 from csv import DictReader
 from Data.datesetPath import DatasetPath
 from BusinessLogic import dataService
+import BusinessLogic.oracleDBconnector
 
 records = []
 colNames = ""
@@ -45,9 +46,9 @@ def read_dataset(file_name):
             colNames = ""
             colNames = dictR.fieldnames
 
-            """The variable records will store 100 rows in a loop"""
+            """The variable records will store 500 rows in a loop"""
             records = []
-            records = [next(dictR) for x in range(100)]
+            records = [next(dictR) for x in range(4632)]
 
     except FileNotFoundError:
         print("File not found! Check the file name and location.")
@@ -91,10 +92,11 @@ def reload():
     This function reloads 100 rows of data from CSV file into a simple data
     structure, list.
     """
-
-    read_dataset(DatasetPath.covid19_new)
-    dataService.showAllRecords()
-    print("\nReloaded 100 rows from covid19_new successfully\n")
+    print("It will take 56 seconds to load whole dataset. Please wait. Loading started......")
+    BusinessLogic.oracleDBconnector.insert_to_oracle()
+    # read_dataset(DatasetPath.covid19_new)
+    # dataService.showAllRecords()
+    print("\nReloaded 4632 records to oracle DB from covid19-Modified.csv dataset.\n")
 
 
 class DataAccess:
@@ -111,7 +113,7 @@ class DataAccess:
     records_dict = []
 
     if __name__ == "__main__":
-        read_dataset(DatasetPath.covid19_new)
+        read_dataset(DatasetPath.covid19canada)
         print_header()
         printDataset()
         printName()

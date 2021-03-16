@@ -1,3 +1,14 @@
+"""
+Project name - CST8333ProjectByMuktaDebnath
+Professor's name: Mazin Abou-Seido
+Author's name: Mukta Debnath
+CST8333-351- Assignment 03
+Student No.: 040950904
+
+Description: This Script will connect the Oracle database and create table where I will update, insert, delete data
+from the dataset.
+
+"""
 import pandas as pd
 from Data.datesetPath import DatasetPath
 from Persistence import dataAccess
@@ -34,6 +45,7 @@ covid = Table(
     Column('ratetotal', CLOB),
 )
 
+
 def insert_to_oracle():
     """
 
@@ -42,20 +54,20 @@ def insert_to_oracle():
     """
 
     from Persistence.dataAccess import read_dataset
-    read_dataset(DatasetPath.covid19_new)
+    read_dataset(DatasetPath.covid19canada)
     pd_df = pd.DataFrame(dataAccess.records)
     pd_df.to_sql(table_name, engine, if_exists='replace', index=True, chunksize=100)
 
 
-def add_a_record_to_oracle(new_record_to_add):
+def add_a_record_to_oracle(new_record):
     """
 
     This function appends a new record to Oracle database as per user input.
-    :param new_record_to_add: Data of the new record.
-    :type new_record_to_add: dataframe
+    :param new_record: Data of the new record.
+    :type new_record: dataframe
     """
 
-    new_df = pd.DataFrame(new_record_to_add, index=[get_last_index_from_oracle()+1])
+    new_df = pd.DataFrame(new_record, index=[get_last_index_from_oracle() + 1])
     new_df.to_sql(table_name, engine, if_exists='append', index=True)
     print("\nFollowing record has been created and stored to Oracle Database.\n")
     print(new_df)
@@ -95,8 +107,7 @@ def read_one_record_from_oracle(selected_index):
     """
 
     global df_one
-    df_one = pd.read_sql('select * from ' + table_name + ' covid where covid."index" = ' + str(selected_index),
-                         engine)
+    df_one = pd.read_sql('select * from ' + table_name + ' covid where covid."index" = ' + str(selected_index), engine)
     if df_one.empty:
         print('Result from Oracle Database search >>\n')
         print('The requested record with index# ' + str(selected_index) + ' not found in Oracle Database!')

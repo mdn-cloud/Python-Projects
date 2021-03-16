@@ -3,12 +3,12 @@ CREATE TABLE canadacovid19(
     pruid NUMBER(6) NOT NULL,
     prname VARCHAR2(50) NOT NULL,
     prnameFR VARCHAR2(50) NOT NULL,
-    sdate DATE,
+    sdate DATE NOT NULL,
     numconf NUMBER(4) NOT NULL,
     numprob NUMBER(4) NOT NULL,
     numdeaths NUMBER(4) NOT NULL,
     numtotal NUMBER(4) NOT NULL,
     numtoday NUMBER(4) NOT NULL,
-    ratetotal NUMBER(4) NOT NULL,
+    ratetotal NUMBER(4,2) NOT NULL,
     PRIMARY KEY(sl_no)
 );
