@@ -1,8 +1,9 @@
 """
-Project name - CST8333ProjectByMuktaDebnath
+Project name - Oracle 12c Database Connectivity
+Programming Language Research Project
+CST8333-351- Assignment 03
 Professor's name: Mazin Abou-Seido
 Author's name: Mukta Debnath
-CST8333-351- Assignment 03
 Student No.: 040950904
 
 Description: This is the starting point of the project where my code will execute. In this script I imported my

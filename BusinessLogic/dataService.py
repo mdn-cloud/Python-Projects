@@ -11,10 +11,9 @@ Python environment to analysis the data and other requirements.
 """
 
 import pandas as pd
+
 pd.set_option('display.max_columns', None)
 from BusinessLogic import oracleDBconnector
-# import pyinputplus
-# from Persistence import dataAccess
 
 
 def showOneRecord(selected_index):
@@ -114,32 +113,3 @@ def updateRecord(id_u, pn_u, pnFR_u, dt_u, conf_u, prof_u, dth_u, total_u, today
     """
     oracleDBconnector.update_a_record_to_oracle(id_u, pn_u, pnFR_u, dt_u, conf_u, prof_u, dth_u, total_u, today_u,
                                                 rate_u, u_index)
-    # new_value = ""
-    # pd_df = pd.DataFrame(dataAccess.records)
-    # print(pd_df.loc[[update_index]])
-    # response_col = pyinputplus.inputRegex(r'^[0-9]$', prompt="\nInput the column number to update [0 to 9]: ")
-    # if int(response_col) == 0:
-    #     new_value = pyinputplus.inputNum("Input province id (number): ")
-    # elif int(response_col) == 1:
-    #     new_value = pyinputplus.inputStr("Input province name in English: ", "N/A")
-    # elif int(response_col) == 2:
-    #     new_value = pyinputplus.inputStr("Input province name in French: ", "N/A")
-    # elif int(response_col) == 3:
-    #     new_value = pyinputplus.inputRegex(r'\d{2}/\d{2}/\d{4}', prompt='Input date (MM/DD/YYYY): ')
-    # elif int(response_col) == 4:
-    #     new_value = pyinputplus.inputNum("Input no. of conf (number): ")
-    # elif int(response_col) == 5:
-    #     new_value = pyinputplus.inputNum("Input no. of prob (number): ")
-    # elif int(response_col) == 6:
-    #     new_value = pyinputplus.inputNum("Input no. of deaths (number): ")
-    # elif int(response_col) == 7:
-    #     new_value = pyinputplus.inputNum("Input no. of total (number): ")
-    # elif int(response_col) == 8:
-    #     new_value = pyinputplus.inputNum("Input no. of today (number):")
-    # elif int(response_col) == 9:
-    #     new_value = pyinputplus.inputFloat("Input total rate (number):")
-    #
-    # dataAccess.records[update_index][dataAccess.colNames[int(response_col)]] = new_value
-    # print("\n'" + dataAccess.colNames[int(response_col)] + "' Column number " + str(update_index) + " has updated:\n")
-    # pd_df = pd.DataFrame(dataAccess.records)
-    # print(pd_df.loc[[update_index]])
