@@ -1,8 +1,9 @@
 """
-Project name - CST8333ProjectByMuktaDebnath
+Project name - Oracle 12c Database Connectivity
+Programming Language Research Project
+CST8333-351- Assignment 03
 Professor's name: Mazin Abou-Seido
 Author's name: Mukta Debnath
-CST8333-351- Assignment 03
 Student No.: 040950904
 
 Description: This Script will connect the Oracle database and create table where I will update, insert, delete data
@@ -13,7 +14,7 @@ import pandas as pd
 from Data.datesetPath import DatasetPath
 from Persistence import dataAccess
 from Presentation import menu
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, CLOB
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, CLOB
 
 '''These variables can be accessed by any class or any method in the class by just writing the variable name.'''
 table_name = 'canadacovid19'
@@ -49,7 +50,7 @@ covid = Table(
 def insert_to_oracle():
     """
 
-    This function is to inserts all 4634 records to Oracle database from list data structure
+    This function is to inserts all 4632 records to Oracle database from list data structure
     that read these records initially from the given csv file.
     """
 
@@ -67,10 +68,10 @@ def add_a_record_to_oracle(new_record):
     :type new_record: dataframe
     """
 
-    new_dr = pd.DataFrame(new_record, index=[get_last_index_from_oracle() + 1])
-    new_dr.to_sql(table_name, engine, if_exists='append', index=True)
+    new_df = pd.DataFrame(new_record, index=[get_last_index_from_oracle() + 1])
+    new_df.to_sql(table_name, engine, if_exists='append', index=True)
     print("\nThe record has been created and stored to Oracle DB.\n")
-    print(new_dr)
+    print(new_df)
 
 
 def get_last_index_from_oracle():
@@ -82,35 +83,33 @@ def get_last_index_from_oracle():
     """
 
     read_all_records_from_oracle()
-    sort_dr_ora = df_ora.sort_values(by=['index'])
-    last_record_index = sort_dr_ora["index"].iloc[-1]
+    sort_df_ora = df_ora.sort_values(by=['index'])
+    last_record_index = sort_df_ora["index"].iloc[-1]
     return last_record_index
 
 
 def read_all_records_from_oracle():
     """
 
-    This function reads records from oracle database and saves to a list data structure.
+    This function will read all records from oracle database and saves to a list data structure.
     """
     global df_ora
     df_ora = pd.read_sql('select * from ' + table_name, engine)
-    print(df_ora)
-    # return pd.read_sql('select * from ' + table_name, engine)
 
 
 def read_one_record_from_oracle(selected_index):
     """
 
     The function will use to reads one record from Oracle DB and saves to a Pandas dataframe.
-    :param selected_index: Index of a saved record in Oracle database.
+    :param selected_index: Index of a saved record in DB.
     :type selected_index: int
     """
 
     global df_one
     df_one = pd.read_sql('select * from ' + table_name + ' covid where covid."index" = ' + str(selected_index), engine)
     if df_one.empty:
-        print('Result from Oracle Database search >>\n')
-        print('The requested record with index# ' + str(selected_index) + ' not found in Oracle Database!')
+        print('Result from Oracle DB search >>\n')
+        print('The requested record with index# ' + str(selected_index) + ' not found in the DB!')
         menu.validate_response()
     else:
         print("\nRecord with index# " + str(selected_index) + "\n")
@@ -120,29 +119,27 @@ def read_one_record_from_oracle(selected_index):
 def count_records_number_from_oracle():
     """
 
-    This function counts and returns the number of records that
-    are saved in Oracle database.
-    :returns record_count: number of records saved in the database
+    This function will count and return the number of saved records in Oracle DB.
+    :returns record_count: number of records saved in the DB
     :rtype: int
     """
 
     read_all_records_from_oracle()
     record_count = len(df_ora)
-    # record_count = len()
     return record_count
 
 
 def delete_from_oracle(del_inx):
     """
 
-    This function deletes a  selected record from Oracle database with a specific index number.
-    :param del_inx: Index of a saved record in Oracle database.
+    This function will delete a selected (given by the user) index of the record from Oracle BD
+    :param del_inx: Index of a saved record in BD.
     :type del_inx: int
     """
 
     stmt = covid.delete().where(covid.c.index == del_inx)
     conn.execute(stmt)
-    print('\nThe record with index number ' + str(del_inx) + ' has been successfully deleted from Oracle Database.')
+    print('\nThe record with index number ' + str(del_inx) + ' has been successfully deleted from the DB.')
 
 
 def update_a_record_to_oracle(id_update, name_update, nameFR_update, idate_update, numc_update, nump_update,
@@ -174,5 +171,3 @@ def update_a_record_to_oracle(id_update, name_update, nameFR_update, idate_updat
     print('\nUpdate and save successfully to Oracle Database as:')
     read_one_record_from_oracle(edited_record_index)
     menu.validate_response()
-
-read_all_records_from_oracle()

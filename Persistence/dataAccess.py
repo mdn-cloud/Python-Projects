@@ -62,7 +62,8 @@ def print_header():
     """
 
     print("\n************************************************************************************")
-    print(col_names[0], col_names[1], col_names[2], col_names[3], col_names[4], col_names[5], col_names[6], col_names[7], col_names[8], col_names[9])
+    print(col_names[0], col_names[1], col_names[2], col_names[3], col_names[4], col_names[5], col_names[6],
+          col_names[7], col_names[8], col_names[9])
     print("*************************************************************************************")
 
 
@@ -91,7 +92,7 @@ def reload():
     """
     This function reloads 4632 rows of data from CSV file into the Oracle DB table.
     """
-    print("It will take 50 seconds to load whole dataset to oracle DB. Loading......")
+    print("It will take 6-10 seconds to load whole dataset to oracle DB. Loading......")
     BusinessLogic.oracleDBconnector.insert_to_oracle()
     print("\nReloaded 4632 records to oracle DB from covid19-Modified.csv dataset.\n")
 

@@ -64,12 +64,12 @@ def handle_response(user_response):
         if user_response == 1:
             dataAccess.reload()
             validate_response()
-        # elif user_response == 2 and oracleDBconnector.count_records_number_from_oracle() > 0:
-        elif user_response == 2:
+
+        elif user_response == 2 and oracleDBconnector.count_records_number_from_oracle() > 0:
             dataService.writeToFile(DatasetPath.new_dataset)
             validate_response()
-        # elif user_response == 3 and oracleDBconnector.count_records_number_from_oracle() > 0:
-        elif user_response == 3:
+
+        elif user_response == 3 and oracleDBconnector.count_records_number_from_oracle() > 0:
             one_res = pyinputplus.inputNum(
                 "\nEnter the index number to view [0 to " + str(oracleDBconnector.count_records_number_from_oracle()-1)
                 + "]: ", '>', min=0, lessThan=int(int(oracleDBconnector.count_records_number_from_oracle())))
@@ -112,8 +112,7 @@ def handle_response(user_response):
                           'ratetotal': iratetotal}
             dataService.addRecord(new_record)
             validate_response()
-        # elif user_response == 7 and oracleDBconnector.count_records_number_from_oracle() > 0:
-        elif user_response == 7:
+        elif user_response == 7 and oracleDBconnector.count_records_number_from_oracle() > 0:
             res_to_update = pyinputplus.inputNum("\nPlease enter the index# of the record to update [0 to " + str(
                 oracleDBconnector.get_last_index_from_oracle()) + "]: ", '>', min=0, lessThan=int(
                 int(oracleDBconnector.get_last_index_from_oracle()) + int(1)))
@@ -131,8 +130,7 @@ def handle_response(user_response):
             iratetotal = pyinputplus.inputFloat("Total rate (number): ")
             dataService.updateRecord(prid, pname_en, pname_fr, idate, inumconf, inumprob, deaths, inumtotal,
                                      inumtoday, iratetotal, res_to_update)
-        # elif user_response == 8 and oracleDBconnector.count_records_number_from_oracle() > 0:
-        elif user_response == 8:
+        elif user_response == 8 and oracleDBconnector.count_records_number_from_oracle() > 0:
             res_to_del = pyinputplus.inputNum("\nPlease enter the index# of the record to delete [0 to  " + str(
                 oracleDBconnector.get_last_index_from_oracle()) + "]: ", '>', min=0, lessThan=int(
                 int(oracleDBconnector.get_last_index_from_oracle()) + int(1)))
@@ -141,7 +139,7 @@ def handle_response(user_response):
             validate_response()
 
         elif user_response == 9:
-            print("exit")
+            print("\n!!!The program is Terminated. Have a nice day!!!")
             sys.exit()
 
     except AttributeError:

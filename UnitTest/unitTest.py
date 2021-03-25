@@ -22,12 +22,11 @@ class UnitTestAssignment3(unittest.TestCase):
         This method will test to verify the delete_record() method
         :param self: the instance of the class
         """
-
+        dataAccess.printName()
         records_count_before_deletion = oracleDBconnector.count_records_number_from_oracle()
-        dataService.delete_record(100)
+        dataService.delete_record(10)
         records_count_after_deletion = oracleDBconnector.count_records_number_from_oracle()
         self.assertNotEqual(records_count_before_deletion, records_count_after_deletion)
-        dataAccess.printName()
 
 
 if __name__ == '__main__':
