@@ -7,7 +7,7 @@ Author's name: Mukta Debnath
 Student No.: 040950904
 
 Description: I will test a function by using the Unit Test framework. My tests will check:
-* Function addRecord() to check create and add function is working or not
+Function delete_record() to check the record delete from the database is working or not
 """
 
 import unittest
