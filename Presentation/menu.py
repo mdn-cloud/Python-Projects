@@ -163,10 +163,10 @@ def handle_response(user_response):
                     value = pyinputplus.inputNum("Number of deaths (number): ")
 
                 elif search_columns == 'pruid':
-                    # print('** pruid column will be searched on EQUAL operator **')
-                    # selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
+                    print('** pruid column will be able to search or compare **')
+                    selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
                     value = pyinputplus.inputNum("Enter Province id (number): ")
-                    selected_operator = 'eq'
+                    # value = pyinputplus.inputRegex(r'\d*', prompt='Enter Province id (number): ')
 
                 elif search_columns == 'prname' or search_columns == 'prnameFR':
                     print('** prname column will be searched on EQUAL operator **')
@@ -180,23 +180,27 @@ def handle_response(user_response):
 
                 elif search_columns == 'sdate':
                     selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
-                    value = pyinputplus.inputRegex(r'\d{2}/\d{2}/\d{4}', prompt='Input date (MM/DD/YYYY): ')
+                    value = pyinputplus.inputRegex(r'\d*/\d*/\d{4}', prompt='Input date (MM/DD/YYYY): ')
 
                 elif search_columns == 'numprob':
                     selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
                     value = pyinputplus.inputNum("Number of prob (number): ")
+                    # value = pyinputplus.inputRegex(r'\d*', prompt='Number of prob (number): ')
 
                 elif search_columns == 'numtotal':
                     selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
                     value = pyinputplus.inputNum("Number of total (number): ")
+                    # value = pyinputplus.inputRegex(r'\d*', prompt='Number of total (number): ')
 
                 elif search_columns == 'numtoday':
                     selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
                     value = pyinputplus.inputNum("Number of today (number): ")
+                    # value = pyinputplus.inputRegex(r'\d*', prompt='Number of today (number): ')
 
                 elif search_columns == 'ratetotal':
                     selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
-                    value = pyinputplus.inputFloat("Total rate (number): ")
+                    # value = pyinputplus.inputFloat("Total rate (number): ")
+                    value = pyinputplus.inputRegex(r'\d*.\d*', prompt='Total rate (number): ')
 
                 search_list.append(search_columns)
                 search_values.append(value)

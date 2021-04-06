@@ -9,6 +9,6 @@ CREATE TABLE canadacovid19(
     numdeaths NUMBER(4) NOT NULL,
     numtotal NUMBER(4) NOT NULL,
     numtoday NUMBER(4) NOT NULL,
-    ratetotal NUMBER(4,2) NOT NULL,
+    ratetotal NUMBER(6,2) NOT NULL,
     PRIMARY KEY(sl_no)
 );
