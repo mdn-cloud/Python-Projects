@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\BusinessLogic\search.py">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\Data\datesetPath.py">
           <value>
             <Attribute>

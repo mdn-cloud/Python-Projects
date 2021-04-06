@@ -20,10 +20,10 @@ from csv import DictReader
 import BusinessLogic.oracleDBconnector
 from Data.datesetPath import DatasetPath
 
-records = []
-col_names = ""
-records_dict = []
-
+# records = []
+# col_names = ""
+# records_dict = []
+i = 0
 
 def read_dataset(file_name):
     """
@@ -111,6 +111,7 @@ class DataAccess:
     records = []
     col_names = []
     records_dict = []
+    count = 0
 
     if __name__ == "__main__":
         read_dataset(DatasetPath.covid19canada)

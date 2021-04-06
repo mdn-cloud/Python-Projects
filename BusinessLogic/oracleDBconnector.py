@@ -28,6 +28,8 @@ conn = engine.connect()
 
 '''the variable calles meta assigned to MetaData() that will hold the table called canadacovid19'''
 meta = MetaData()
+# df_ora = []
+# df_one = ""
 
 '''canadacovid19 table structure'''
 covid = Table(

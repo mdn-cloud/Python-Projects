@@ -1,7 +1,7 @@
 """
 Project name - Oracle 12c Database Connectivity
 Programming Language Research Project
-CST8333-351- Assignment 03
+CST8333-351- Assignment 04
 Professor's name: Mazin Abou-Seido
 Author's name: Mukta Debnath
 Student No.: 040950904
@@ -18,12 +18,16 @@ of the application.
 import sys
 from collections import namedtuple
 import pyinputplus
-from BusinessLogic import dataService, oracleDBconnector
+from BusinessLogic import dataService, oracleDBconnector, search
 from Data.datesetPath import DatasetPath
 from Persistence import dataAccess
 
 res_list = []
-response = ""
+# response = ""
+temp_list = []
+search_list = []
+search_values = []
+operator_list = []
 
 
 def validate_response():
@@ -34,7 +38,7 @@ def validate_response():
     global response
     menu = Menu()
     menu.print_menu()
-    response = pyinputplus.inputNum("\nPlease select Options from the list: ", '>', min=1, lessThan=10)
+    response = pyinputplus.inputNum("\nPlease select Options from the list above (1-10): ", '>', min=1, lessThan=11)
     handle_response(response)
 
 
@@ -59,6 +63,8 @@ def handle_response(user_response):
     :param user_response:
     :type user_response: int
     """
+
+    # global new_record_index
 
     try:
         if user_response == 1:
@@ -112,6 +118,7 @@ def handle_response(user_response):
                           'ratetotal': iratetotal}
             dataService.addRecord(new_record)
             validate_response()
+
         elif user_response == 7 and oracleDBconnector.count_records_number_from_oracle() > 0:
             res_to_update = pyinputplus.inputNum("\nPlease enter the index# of the record to update [0 to " + str(
                 oracleDBconnector.get_last_index_from_oracle()) + "]: ", '>', min=0, lessThan=int(
@@ -130,6 +137,7 @@ def handle_response(user_response):
             iratetotal = pyinputplus.inputFloat("Total rate (number): ")
             dataService.updateRecord(prid, pname_en, pname_fr, idate, inumconf, inumprob, deaths, inumtotal,
                                      inumtoday, iratetotal, res_to_update)
+
         elif user_response == 8 and oracleDBconnector.count_records_number_from_oracle() > 0:
             res_to_del = pyinputplus.inputNum("\nPlease enter the index# of the record to delete [0 to  " + str(
                 oracleDBconnector.get_last_index_from_oracle()) + "]: ", '>', min=0, lessThan=int(
@@ -138,7 +146,64 @@ def handle_response(user_response):
             dataService.delete_record(res_to_del)
             validate_response()
 
-        elif user_response == 9:
+        elif user_response == 9 and oracleDBconnector.count_records_number_from_oracle() > 0:
+            res_search = pyinputplus.inputNum(
+                "\nOn how many columns you want to search the records? [1 to 3]: ", '>', min=1, lessThan=4)
+            for i in range(res_search):
+                search_columns = input(
+                    "\nEnter column# " + str(i + 1) + " [pruid, prname, prnameFR, sdate, numconf, "
+                                                      "numprob, numdeaths, numtotal, numtoday, ratetotal]: ")
+
+                if search_columns == 'numconf':
+                    selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
+                    value = pyinputplus.inputNum("Number of conf (number): ")
+
+                elif search_columns == 'numdeaths':
+                    selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
+                    value = pyinputplus.inputNum("Number of deaths (number): ")
+
+                elif search_columns == 'pruid':
+                    # print('** pruid column will be searched on EQUAL operator **')
+                    # selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
+                    value = pyinputplus.inputNum("Enter Province id (number): ")
+                    selected_operator = 'eq'
+
+                elif search_columns == 'prname' or search_columns == 'prnameFR':
+                    print('** prname column will be searched on EQUAL operator **')
+                    value = pyinputplus.inputStr("Input province name in English: ", "N/A")
+                    selected_operator = 'eq'
+
+                elif search_columns == 'prnameFR':
+                    print('** prnameFR column will be searched on EQUAL operator **')
+                    value = pyinputplus.inputStr("Input province name in French: ", "N/A")
+                    selected_operator = 'eq'
+
+                elif search_columns == 'sdate':
+                    selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
+                    value = pyinputplus.inputRegex(r'\d{2}/\d{2}/\d{4}', prompt='Input date (MM/DD/YYYY): ')
+
+                elif search_columns == 'numprob':
+                    selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
+                    value = pyinputplus.inputNum("Number of prob (number): ")
+
+                elif search_columns == 'numtotal':
+                    selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
+                    value = pyinputplus.inputNum("Number of total (number): ")
+
+                elif search_columns == 'numtoday':
+                    selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
+                    value = pyinputplus.inputNum("Number of today (number): ")
+
+                elif search_columns == 'ratetotal':
+                    selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
+                    value = pyinputplus.inputFloat("Total rate (number): ")
+
+                search_list.append(search_columns)
+                search_values.append(value)
+                operator_list.append(selected_operator)
+            search.search_from_database(search_list, search_values, operator_list)
+
+        elif user_response == 10:
             print("\n!!!The program is Terminated. Have a nice day!!!")
             sys.exit()
 
@@ -160,7 +225,7 @@ class Menu:
                 3: Option("Print one record from Oracle DB"), 4: Option("Print multiple records from Oracle DB"),
                 5: Option("Print all saved records from the DB"), 6: Option("Create a new record to the file"),
                 7: Option("Update a record from the DB"), 8: Option("Delete a record from the file in the DB"),
-                9: Option("Exit")}
+                9: Option("Search multiple column of records"), 10: Option('Exit')}
 
     def print_header(self):
         """
@@ -168,7 +233,7 @@ class Menu:
         @param self: The instance of the class.
         """
         dataAccess.printName()
-        print("\n Please Select Option from the list below: \n{0}".format(self._separator))
+        print("{0}\n Please Select Option from the list below: \n{0}".format(self._separator))
 
     def print_menu(self):
         """

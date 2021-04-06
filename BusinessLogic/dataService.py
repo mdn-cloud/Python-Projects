@@ -12,9 +12,8 @@ Python environment to analysis the data and other requirements.
 """
 
 import pandas as pd
-
-pd.set_option('display.max_columns', None)
 from BusinessLogic import oracleDBconnector
+pd.set_option('display.max_columns', None)
 
 df_ora = []
 new_record = []
