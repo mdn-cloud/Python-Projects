@@ -9,11 +9,8 @@ def search_from_database(clm_list, vl_list, oprtr_list):
 
     This function searches records stored in Oracle database as per user input.
     :param clm_list: A list containing column names.
-    :type clm_list: A list of Strings
     :param vl_list: A list containing values to be searched upon.
-    :type vl_list: A list of different data types
     :param oprtr_list: A list containing values for preferred operators.
-    :type oprtr_list: A list of Strings
     """
     oracleDBconnector.read_all_records_from_oracle()
     oracleDBconnector.df_ora.numconf = pd.to_numeric(oracleDBconnector.df_ora.numconf,
@@ -21,15 +18,15 @@ def search_from_database(clm_list, vl_list, oprtr_list):
     oracleDBconnector.df_ora.numdeaths = pd.to_numeric(oracleDBconnector.df_ora.numdeaths,
                                                        errors='coerce').astype('Int64')
     oracleDBconnector.df_ora.numtotal = pd.to_numeric(oracleDBconnector.df_ora.numtotal,
-                                                       errors='coerce').astype('Int64')
+                                                      errors='coerce').astype('Int64')
     oracleDBconnector.df_ora.numtoday = pd.to_numeric(oracleDBconnector.df_ora.numtoday,
                                                       errors='coerce').astype('Int64')
     oracleDBconnector.df_ora.pruid = pd.to_numeric(oracleDBconnector.df_ora.pruid,
-                                                      errors='coerce').astype('Int64')
+                                                   errors='coerce').astype('Int64')
     oracleDBconnector.df_ora.numprob = pd.to_numeric(oracleDBconnector.df_ora.numprob,
-                                                      errors='coerce').astype('Int64')
-    # oracleDBconnector.df_ora.ratetotal = pd.to_numeric(oracleDBconnector.df_ora.ratetotal, downcast='float',
-    #                                                   errors='coerce').astype('float64')
+                                                     errors='coerce').astype('Int64')
+    oracleDBconnector.df_ora.ratetotal = pd.to_numeric(oracleDBconnector.df_ora.ratetotal,
+                                                       errors='coerce').astype('float64')
 
     if len(clm_list) == 1:
         dataAccess.printName()

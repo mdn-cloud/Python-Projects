@@ -166,7 +166,6 @@ def handle_response(user_response):
                     print('** pruid column will be able to search or compare **')
                     selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
                     value = pyinputplus.inputNum("Enter Province id (number): ")
-                    # value = pyinputplus.inputRegex(r'\d*', prompt='Enter Province id (number): ')
 
                 elif search_columns == 'prname' or search_columns == 'prnameFR':
                     print('** prname column will be searched on EQUAL operator **')
@@ -185,22 +184,18 @@ def handle_response(user_response):
                 elif search_columns == 'numprob':
                     selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
                     value = pyinputplus.inputNum("Number of prob (number): ")
-                    # value = pyinputplus.inputRegex(r'\d*', prompt='Number of prob (number): ')
 
                 elif search_columns == 'numtotal':
                     selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
                     value = pyinputplus.inputNum("Number of total (number): ")
-                    # value = pyinputplus.inputRegex(r'\d*', prompt='Number of total (number): ')
 
                 elif search_columns == 'numtoday':
                     selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
                     value = pyinputplus.inputNum("Number of today (number): ")
-                    # value = pyinputplus.inputRegex(r'\d*', prompt='Number of today (number): ')
 
                 elif search_columns == 'ratetotal':
                     selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
-                    # value = pyinputplus.inputFloat("Total rate (number): ")
-                    value = pyinputplus.inputRegex(r'\d*.\d*', prompt='Total rate (number): ')
+                    value = pyinputplus.inputNum("Total rate (number): ")
 
                 search_list.append(search_columns)
                 search_values.append(value)
@@ -229,7 +224,7 @@ class Menu:
                 3: Option("Print one record from Oracle DB"), 4: Option("Print multiple records from Oracle DB"),
                 5: Option("Print all saved records from the DB"), 6: Option("Create a new record to the file"),
                 7: Option("Update a record from the DB"), 8: Option("Delete a record from the file in the DB"),
-                9: Option("Search multiple column of records"), 10: Option('Exit')}
+                9: Option("Search multiple columns of record "), 10: Option('Exit')}
 
     def print_header(self):
         """
