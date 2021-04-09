@@ -1,5 +1,5 @@
 """
-Project name - Oracle 12c Database Connectivity
+Project name - Search records based on multiple columns at same time
 Programming Language Research Project
 CST8333-351- Assignment 04
 Professor's name: Mazin Abou-Seido
@@ -23,7 +23,6 @@ from Data.datesetPath import DatasetPath
 from Persistence import dataAccess
 
 res_list = []
-# response = ""
 temp_list = []
 search_list = []
 search_values = []
@@ -163,17 +162,17 @@ def handle_response(user_response):
                     value = pyinputplus.inputNum("Number of deaths (number): ")
 
                 elif search_columns == 'pruid':
-                    print('** pruid column will be able to search or compare **')
+                    print(" ** pruid column will be able to search on '=' or '<' or '>' operator **")
                     selected_operator = input('Enter operator [gt for >] [lt for <] [eq for =] : ')
                     value = pyinputplus.inputNum("Enter Province id (number): ")
 
                 elif search_columns == 'prname' or search_columns == 'prnameFR':
-                    print('** prname column will be searched on EQUAL operator **')
+                    print('** enter the same value because this column will be searched on equal operator **')
                     value = pyinputplus.inputStr("Input province name in English: ", "N/A")
                     selected_operator = 'eq'
 
                 elif search_columns == 'prnameFR':
-                    print('** prnameFR column will be searched on EQUAL operator **')
+                    print('** enter the same value because this column will be searched on equal operator **')
                     value = pyinputplus.inputStr("Input province name in French: ", "N/A")
                     selected_operator = 'eq'
 

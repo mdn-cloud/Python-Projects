@@ -1,3 +1,17 @@
+"""
+Project name - Search records based on multiple columns at same time
+Programming Language Research Project
+CST8333-351- Assignment 04
+Professor's name: Mazin Abou-Seido
+Author's name: Mukta Debnath
+Student No.: 040950904
+
+Description: This script allows users to search the records based on multiple columns at the same time.
+The users can select columns (min 1 and max 3) to search records from Oracle DB. The users also can select
+operators i.e. >, < or = to perform search based on their selected columns on the records stored in the DB.
+
+"""
+
 from Persistence import dataAccess
 import pandas as pd
 from BusinessLogic import oracleDBconnector
@@ -30,8 +44,8 @@ def search_from_database(clm_list, vl_list, oprtr_list):
 
     if len(clm_list) == 1:
         dataAccess.printName()
-        print('Note >> eq: EQUAL (=); gt: GREATER THAN (>); lt: LESS THAN (<)')
-        print('Search results from Oracle database for '
+        print('Note >> eq: equal; gt: grater than; lt: less than')
+        print('Search records from DB for '
               + clm_list[0] + ' ' + oprtr_list[0] + ' ' + str(vl_list[0]) + ' >>\n')
         if oprtr_list[0] == 'gt':
             rslt_df = oracleDBconnector.df_ora.loc[(oracleDBconnector.df_ora[clm_list[0]] > vl_list[0])]
@@ -42,8 +56,8 @@ def search_from_database(clm_list, vl_list, oprtr_list):
 
     elif len(clm_list) == 2:
         dataAccess.printName()
-        print('Note >> eq: EQUAL (=); gt: GREATER THAN (>); lt: LESS THAN (<)')
-        print('Search results from Oracle database for ' + clm_list[0] + ' ' +
+        print('Note >> eq: equal; gt: grater than; lt: less than')
+        print('Search records from DB for ' + clm_list[0] + ' ' +
               oprtr_list[0] + ' ' + str(vl_list[0]) + ' AND ' + clm_list[1] + ' ' + oprtr_list[1]
               + ' ' + str(vl_list[1]) + ' >>\n')
         if oprtr_list[0] == 'gt' and oprtr_list[1] == 'gt':
@@ -85,8 +99,8 @@ def search_from_database(clm_list, vl_list, oprtr_list):
 
     elif len(clm_list) == 3:
         dataAccess.printName()
-        print('Note >> eq: EQUAL (=); gt: GREATER THAN (>); lt: LESS THAN (<)')
-        print('Search results from Oracle database for '
+        print('Note >> eq: equal; gt: grater than; lt: less than')
+        print('Search records from DB for '
               + clm_list[0] + ' ' + oprtr_list[0] + ' ' + str(vl_list[0]) + ' AND '
               + clm_list[1] + ' ' + oprtr_list[1] + ' ' + str(vl_list[1]) + ' AND '
               + clm_list[2] + ' ' + oprtr_list[2] + ' ' + str(vl_list[2]) + ' >>\n')
@@ -226,7 +240,7 @@ def search_from_database(clm_list, vl_list, oprtr_list):
                 (oracleDBconnector.df_ora[clm_list[1]] < vl_list[1]) &
                 (oracleDBconnector.df_ora[clm_list[2]] < vl_list[2])]
     if rslt_df.empty:
-        print('No matching data is found. Try another search.')
+        print('Data not match. Try again.')
     else:
         print(rslt_df.to_string(index=False))
 
